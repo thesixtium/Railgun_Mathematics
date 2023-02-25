@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from Kinematics import simulate_projectile
+import copy
 
 def build_test(
         variable1, variable1_points, variable1_min, variable1_max,
@@ -59,7 +60,7 @@ def find_best_parameters_of_two_variables(test):
     y_values = []
     z_values = []
 
-    current_best = [0, 0, 0, 0]
+    current_best = [0, 0, 0, 0, None]
 
     for x in x_test_values:
         print("On simulation {} of {} (len(x): {}\tlen(y): {})".format(
@@ -77,10 +78,11 @@ def find_best_parameters_of_two_variables(test):
             z = projectile_sim[test["z"]][-1]
 
             if z > current_best[3]:
-                current_best[0] = projectile_sim
+                current_best[0] = copy.deepcopy(projectile_sim)
                 current_best[1] = x
                 current_best[2] = y
                 current_best[3] = z
+                current_best[4] = copy.deepcopy(test["params"])
 
             x_values.append(x)
             y_values.append(y)
